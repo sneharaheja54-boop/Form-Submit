@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Form with Bootstrap</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+<style>
+  .form-container {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 50px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+  }
+</style>
+</head>
+<body class="bg-light">
+
+<div class="container">
+  <div class="form-container">
+    <h4 class="text-center mb-4">Form Submission to Google Sheet</h4>
+    <form id="submit-to-google-sheet">
+      
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="name"
+          id="name"
+          placeholder="Name"
+          required
+        />
+      </div>
+
+      <!-- Phone -->
+      <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input
+          class="form-control"
+          type="tel"
+          name="phone"
+          id="phone"
+          placeholder="+92XXXXXXXXXX"
+          pattern="^\+?[0-9]{10,15}$"
+          required
+        />
+        <small class="form-text text-muted">Enter valid phone (10–15 digits, e.g. +923001234567)</small>
+      </div>
+
+      <!-- City -->
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="city"
+          id="city"
+          placeholder="City"
+          required
+        />
+      </div>
+
+      <!-- Destination -->
+      <div class="form-group">
+        <label for="destination">Destination:</label>
+        <input
+          class="form-control"
+          type="text"
+          name="destination"
+          id="destination"
+          placeholder="Destination"
+          required
+        />
+      </div>
+
+      <!-- Resume Upload -->
+      <div class="form-group">
+        <label for="resume">Upload Resume:</label>
+        <input
+          class="form-control"
+          type="file"
+          name="resume"
+          id="resume"
+          accept=".pdf,.doc,.docx"
+          required
+        />
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const scriptURL =
+    "https://connect.pabbly.com/workflow/sendwebhookdata/IjU3NjYwNTY1MDYzMTA0M2M1MjZlNTUzMDUxMzIi_pc";
+  const form = document.forms["submit-to-google-sheet"];
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    var formData = new FormData(form);
+
+    fetch(scriptURL, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    })
+      .then(() => {
+        swal("Done", "Submitted Successfully.", "success");
+        form.reset();
+      })
+      .catch(() => {
+        swal("Error", "Something went wrong. Please try again!", "error");
+      });
+  });
+</script>
+</body>
+</html>
